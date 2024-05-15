@@ -26,30 +26,7 @@ const Home = () => {
         dispatch(getProduct())
     }, [dispatch, error]);
 
-//     const [products, setProducts] = useState({});
-//   const [loading, setLoading] = useState(true);
-//     useEffect(() => {
-//         const fetchCoin = async () => {
-//           try {
-//             const { data } = await axios.get(`https://ecommerce-server-side-0syi.onrender.com/api/v1/products`);
-    
-            
-    
-//             setProducts(data);
-            
-//             setLoading(false);
-    
-//           } catch (error) {
-//             if(error){
-//                         toast.error(error);
-//                     }
-//             setLoading(false);
-//           }
-//         };
-//     fetchCoin();
-        
-    
-//       }, []);
+
    
 
 
