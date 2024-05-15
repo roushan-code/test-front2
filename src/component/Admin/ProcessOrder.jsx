@@ -9,21 +9,21 @@ import {
 } from "../../actions/orderAction";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from '../layout/Loader/loader.jsx';
-import { useAlert } from "react-alert";
+import { toast } from 'react-toastify';
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import { useParams } from 'react-router-dom';
 import { UPDATE_ORDER_RESET } from "../../constants/orderContants";
 import "./processOrder.css";
 
 const ProcessOrder = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const { order, error, loading } = useSelector((state) => state.orderDetails);
-  
+
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
-    
+
     const myForm = new FormData();
 
     myForm.set("status", status);
@@ -32,26 +32,26 @@ const ProcessOrder = () => {
   };
 
   const dispatch = useDispatch();
-  const alert = useAlert();
+  
 
   const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
     if (updateError) {
-      alert.error(updateError);
+      toast.error(updateError);
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      alert.success("Order Updated Successfully");
+      toast.success("Order Updated Successfully");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
     dispatch(getOrderDetails(id));
-  }, [dispatch, alert, error, id, isUpdated, updateError]);
+  }, [dispatch, toast, error, id, isUpdated, updateError]);
 
   return (
     <Fragment>
@@ -70,7 +70,7 @@ const ProcessOrder = () => {
             >
               <div>
                 <div className="confirmshippingArea">
-                <h2 className="h22">Shipping Info</h2>
+                  <h2 className="h22">Shipping Info</h2>
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p>Name:</p>
@@ -90,20 +90,20 @@ const ProcessOrder = () => {
                       </span>
                     </div>
                   </div>
-                    
+
                   <h2 className="h22">Payment</h2>
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p
                         className={
                           order && order.paymentInfo &&
-                          order.paymentInfo.status === "succeeded"
+                            order.paymentInfo.status === "succeeded"
                             ? "greenColor"
                             : "redColor"
                         }
                       >
                         {order && order.paymentInfo &&
-                        order.paymentInfo.status === "succeeded"
+                          order.paymentInfo.status === "succeeded"
                           ? "PAID"
                           : "NOT PAID"}
                       </p>
@@ -131,8 +131,8 @@ const ProcessOrder = () => {
                   </div>
                 </div>
                 <div className="confirmCartItems">
-                <h2 className="h22">Your Cart Items:</h2>
-                  
+                  <h2 className="h22">Your Cart Items:</h2>
+
                   <div className="confirmCartItemsContainer">
                     {order && order.orderItems &&
                       order.orderItems.map((item) => (
@@ -177,7 +177,7 @@ const ProcessOrder = () => {
                   </div>
 
                   <button
-                  className="MuiButtonBase-root MuiButton-root MuiButton-text"
+                    className="MuiButtonBase-root MuiButton-root MuiButton-text"
                     id="createProductBtn"
                     type="submit"
                     disabled={
@@ -185,8 +185,8 @@ const ProcessOrder = () => {
                     }
                   >
                     <span class="MuiButton-label">Process</span>
-              <span class="MuiTouchRipple-root"></span>
-                    Process
+                    <span class="MuiTouchRipple-root"></span>
+
                   </button>
                 </form>
               </div>
