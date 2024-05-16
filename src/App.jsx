@@ -5,24 +5,22 @@ import WebFont from 'webfontloader';
 import React from 'react';
 import Footer from "./component/layout/Footer/Footer.jsx";
 import Home from "./component/Home/Home.jsx";
-import Contact from './component/layout/Contact/Contact.jsx';
-import About from './component/layout/About/About.jsx';
 import ProductDetails from "./component/Product/ProductDetails.jsx"
 import Products from "./component/Product/Products.jsx"
 import Search from "./component/Product/Search.jsx"
 import LoginSignUp from './component/User/LoginSignUp.jsx';
+import Profile from './component/User/Profile.jsx';
 import store from "./store.jsx"
 import { loadUser } from './actions/userAction.jsx';
 import UserOptions from "./component/layout/Header/UserOptions.jsx"
 import { useSelector } from 'react-redux';
-import ForgotPassword from './component/User/ForgotPassword.jsx';
-import ResetPassword from './component/User/ResetPassword.jsx';
-import Cart from "./component/Cart/Cart.jsx"
-import Profile from './component/User/Profile.jsx';
 import PrivateRoute from './component/Route/ProtectedRoute.jsx';
 import PrivateRouteAdmin from './component/Route/ProtectedRouteAdmin.jsx';
 import UpdateProfile from './component/User/UpdateProfile.jsx';
 import UpdatePassword from './component/User/UpdatePassword.jsx';
+import ForgotPassword from './component/User/ForgotPassword.jsx';
+import ResetPassword from './component/User/ResetPassword.jsx';
+import Cart from "./component/Cart/Cart.jsx"
 import Shipping from './component/Cart/Shipping.jsx';
 import ConfirmOrder from './component/Cart/ConfirmOrder.jsx';
 import MyOrders from './component/Order/MyOrders.jsx';
@@ -40,6 +38,8 @@ import ProcessOrder from './component/Admin/ProcessOrder.jsx';
 import UsersList from './component/Admin/UserList.jsx';
 import UpdateUser from './component/Admin/UpdateUser.jsx';
 import ProductReviews from './component/Admin/ProductReviews.jsx';
+import Contact from './component/layout/Contact/Contact.jsx';
+import About from './component/layout/About/About.jsx';
 import NotFound from "./component/layout/Not Found/NotFound.jsx"
 
 function App() {
@@ -63,122 +63,53 @@ function App() {
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route exact path='/product/:id' element={<ProductDetails />} />
-        <Route exact path='/products' element={<Products />} />
-        <Route path='/products/:keyword' element={<Products />} />
-        <Route exact path='/search' element={<Search />} />
-        <Route exact path='/login' element={<LoginSignUp />} />
-        <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/password/forgot" element={<ForgotPassword />} />
-        <Route exact path="/password/reset/:token" element={<ResetPassword />} />
-        <Route exact path="/contact" element={<Contact />} />
-        <Route exact path="/about" element={<About />} />
+        <Route exact path='/' Component={Home} />
+        <Route exact path='/product/:id' Component={ProductDetails} />
+        <Route exact path='/products' Component={Products} />
+        <Route path='/products/:keyword' Component={Products} />
+        <Route exact path='/search' Component={Search} />
+        <Route exact path='/login' Component={LoginSignUp} />
+        <Route exact path="/cart" Component={Cart} />
+        <Route exact path="/password/forgot" Component={ForgotPassword} />
+        <Route exact path="/password/reset/:token" Component={ResetPassword} />
+        <Route exact path="/contact" Component={Contact} />
+        <Route exact path="/about" Component={About} />
 
         <Route
           element={<PrivateRouteAdmin isAdmin={true} />}
         >
           <Route element={<Dashboard />} path="/admin/dashboard" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<ProductList />} path="/admin/products" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<NewProduct />} path="/admin/product" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<UpdateProduct />} path="/admin/product/:id" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<OrderList />} path="/admin/orders" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<ProcessOrder />} path="/admin/order/:id" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<UsersList />} path="/admin/users" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<UpdateUser />} path="/admin/user/:id" exact />
-        </Route>
-
-        <Route
-          element={<PrivateRouteAdmin isAdmin={true} />}
-        >
           <Route element={<ProductReviews />} path="/admin/reviews" exact />
+
         </Route>
-
-
 
 
         <Route
           element={<PrivateRoute isAdmin={false} />}
         >
-          <Route element={<Profile />} path="/account" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
-          <Route element={<UpdateProfile />} path="/me/update" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
+        <Route element={<Profile />} path="/account" exact />
+        <Route element={<UpdateProfile />} path="/me/update" exact />
           <Route element={<UpdatePassword />} path="/password/update" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
           <Route element={<Shipping />} path="/login/shipping" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
           <Route element={<ConfirmOrder />} path="/order/confirm" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
           <Route element={<OrderSuccess />} path="/success" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
           <Route element={<MyOrders />} path="/orders" exact />
-        </Route>
-        <Route
-          element={<PrivateRoute isAdmin={false} />}
-        >
           <Route element={<OrderDetails />} path="/order/:id" exact />
+
+
+          <Route element={
+            <PaymentGuard />
+          } path="/process/payment" exact />
         </Route>
-
-
-        <Route element={
-          <PaymentGuard />
-        } path="/process/payment" exact />
-
-        <Route path='*' element={window.location.pathname === "/process/payment" ? null : <NotFound />} />
+        
+        <Route path='*' Component={window.location.pathname === "/process/payment" ? null : NotFound} />
       </Routes>
 
       <Footer />
