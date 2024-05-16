@@ -18,7 +18,7 @@ import {
   DELETE_ORDER_SUCCESS,
   DELETE_ORDER_FAIL,
   CLEAR_ERRORS,
-} from "../constants/orderContants";
+} from "../constants/orderConstants";
 
 import axios from "axios";
 import { url } from "../link";

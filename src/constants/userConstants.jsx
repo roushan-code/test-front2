@@ -1,24 +1,22 @@
-import {createAction } from "@reduxjs/toolkit";
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
 
-export const LOGIN_REQUEST = createAction('LOGIN_REQUEST');
-export const LOGIN_SUCCESS = createAction('LOGIN_SUCCESS');
-export const LOGIN_FAIL = createAction('LOGIN_FAIL');
+export const REGISTER_USER_REQUEST = "REGISTER_USER_REQUEST";
+export const REGISTER_USER_SUCCESS = "REGISTER_USER_SUCCESS";
+export const REGISTER_USER_FAIL = "REGISTER_USER_FAIL";
 
-export const REGISTER_USER_REQUEST = createAction('REGISTER_USER_REQUEST');
-export const REGISTER_USER_SUCCESS = createAction('REGISTER_USER_SUCCESS');
-export const REGISTER_USER_FAIL = createAction('REGISTER_USER_FAIL');
+export const LOAD_USER_REQUEST = "LOAD_USER_REQUEST";
+export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
+export const LOAD_USER_FAIL = "LOAD_USER_FAIL";
 
-export const LOAD_USER_REQUEST = createAction('LOAD_USER_REQUEST');
-export const LOAD_USER_SUCCESS = createAction('LOAD_USER_SUCCESS');
-export const LOAD_USER_FAIL = createAction('LOAD_USER_FAIL');
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAIL = "LOGOUT_FAIL";
 
-export const LOGOUT_SUCCESS = createAction('LOGOUT_SUCCESS');
-export const LOGOUT_FAIL = createAction('LOGOUT_FAIL');
-
-export const UPDATE_PROFILE_REQUEST = createAction('UPDATE_PROFILE_REQUEST');
-export const UPDATE_PROFILE_SUCCESS = createAction('UPDATE_PROFILE_SUCCESS');
-export const UPDATE_PROFILE_RESET = createAction('UPDATE_PROFILE_RESET');
-export const UPDATE_PROFILE_FAIL = createAction('UPDATE_PROFILE_FAIL');
+export const UPDATE_PROFILE_REQUEST = "UPDATE_PROFILE_REQUEST";
+export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
+export const UPDATE_PROFILE_RESET = "UPDATE_PROFILE_RESET";
+export const UPDATE_PROFILE_FAIL = "UPDATE_PROFILE_FAIL";
 
 export const UPDATE_PASSWORD_REQUEST = "UPDATE_PASSWORD_REQUEST";
 export const UPDATE_PASSWORD_SUCCESS = "UPDATE_PASSWORD_SUCCESS";
@@ -51,4 +49,4 @@ export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
 export const DELETE_USER_RESET = "DELETE_USER_RESET";
 
-export const CLEAR_ERRORS = createAction('CLEAR_ERRORS');
+export const CLEAR_ERRORS = "CLEAR_ERRORS";

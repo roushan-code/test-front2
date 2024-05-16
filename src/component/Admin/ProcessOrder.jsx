@@ -12,7 +12,7 @@ import Loader from '../layout/Loader/loader.jsx';
 import { toast } from 'react-toastify';
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import { useParams } from 'react-router-dom';
-import { UPDATE_ORDER_RESET } from "../../constants/orderContants";
+import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
 
 const ProcessOrder = () => {

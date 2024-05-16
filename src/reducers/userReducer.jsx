@@ -1,8 +1,7 @@
 import {
-  LOGIN_FAIL,
   LOGIN_REQUEST,
+  LOGIN_FAIL,
   LOGIN_SUCCESS,
-  CLEAR_ERRORS,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -13,8 +12,8 @@ import {
   LOGOUT_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_RESET,
   UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_RESET,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_RESET,
@@ -39,34 +38,36 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  CLEAR_ERRORS,
 } from "../constants/userConstants";
-import { createReducer } from "@reduxjs/toolkit";
 
-const initialState = {
-  loading: false,
-  isAuthenticated: false,
-  user: {},
-  error: null
-};
+export const userReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case LOGIN_REQUEST:
+    case REGISTER_USER_REQUEST:
+    case LOAD_USER_REQUEST:
+      return {
+        loading: true,
+        isAuthenticated: false,
+      };
+    case LOGIN_SUCCESS:
+    case REGISTER_USER_SUCCESS:
+    case LOAD_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        user: action.payload,
+      };
 
-export const userReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(LOGIN_REQUEST, (state) => {
+    case LOGOUT_SUCCESS:
       return {
-        ...state,
-        loading: true,
+        loading: false,
+        user: null,
         isAuthenticated: false,
       };
-    })
-    .addCase(LOGIN_SUCCESS, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload,
-      };
-    })
-    .addCase(LOGIN_FAIL, (state, action) => {
+    case LOGIN_FAIL:
+    case REGISTER_USER_FAIL:
       return {
         ...state,
         loading: false,
@@ -74,312 +75,197 @@ export const userReducer = createReducer(initialState, (builder) => {
         user: null,
         error: action.payload,
       };
-    })
-    .addCase(REGISTER_USER_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-        isAuthenticated: false,
-      };
-    })
-    .addCase(REGISTER_USER_SUCCESS, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload,
-      };
-    })
-    .addCase(REGISTER_USER_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: false,
-        user: null,
-        error: action.payload,
-      };
-    })
-    .addCase(LOAD_USER_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-        isAuthenticated: false,
-      };
-    })
-    .addCase(LOAD_USER_SUCCESS, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload,
-      };
-    })
-    .addCase(LOGOUT_SUCCESS, (state, action) => {
-      return {
-        loading: false,
-        isAuthenticated: false,
-        user: null,
-      };
-    })
-    .addCase(LOAD_USER_FAIL, (state, action) => {
+
+    case LOAD_USER_FAIL:
       return {
         loading: false,
         isAuthenticated: false,
         user: null,
         error: action.payload,
       };
-    })
-    .addCase(LOGOUT_FAIL, (state, action) => {
+
+    case LOGOUT_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    })
-    .addCase(CLEAR_ERRORS, (state, action) => {
+
+    case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
-    });
-});
 
-// Profile Reducer
-export const profileReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(UPDATE_PROFILE_REQUEST, (state) => {
+    default:
+      return state;
+  }
+};
+
+export const profileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_PROFILE_REQUEST:
+    case UPDATE_PASSWORD_REQUEST:
+    case UPDATE_USER_REQUEST:
+    case DELETE_USER_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    })
-    .addCase(UPDATE_PROFILE_SUCCESS, (state, action) => {
+    case UPDATE_PROFILE_SUCCESS:
+    case UPDATE_PASSWORD_SUCCESS:
+    case UPDATE_USER_SUCCESS:
       return {
         ...state,
         loading: false,
         isUpdated: action.payload,
       };
-    })
-    .addCase(UPDATE_PROFILE_RESET, (state) => {
-      return {
-        ...state,
-        isUpdated: false,
-      };
-    })
-    .addCase(UPDATE_PROFILE_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
-    .addCase(UPDATE_PASSWORD_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    })
-    .addCase(UPDATE_USER_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    })
-    .addCase(DELETE_USER_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    })
-    .addCase(UPDATE_PASSWORD_SUCCESS, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isUpdated: action.payload,
-      };
-    })
-    .addCase(UPDATE_USER_SUCCESS, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        isUpdated: action.payload,
-      };
-    })
-    .addCase(DELETE_USER_SUCCESS, (state, action) => {
+
+    case DELETE_USER_SUCCESS:
       return {
         ...state,
         loading: false,
         isDeleted: action.payload.success,
         message: action.payload.message,
       };
-    })
-    .addCase(UPDATE_PASSWORD_RESET, (state) => {
+
+    case UPDATE_PROFILE_FAIL:
+    case UPDATE_PASSWORD_FAIL:
+    case UPDATE_USER_FAIL:
+    case DELETE_USER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_PROFILE_RESET:
+    case UPDATE_PASSWORD_RESET:
+    case UPDATE_USER_RESET:
       return {
         ...state,
         isUpdated: false,
       };
-    })
-    .addCase(UPDATE_USER_RESET, (state) => {
-      return {
-        ...state,
-        isUpdated: false,
-      };
-    })
-    .addCase(DELETE_USER_RESET, (state) => {
+
+    case DELETE_USER_RESET:
       return {
         ...state,
         isDeleted: false,
       };
-    })
-    .addCase(UPDATE_PASSWORD_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
-    .addCase(UPDATE_USER_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
-    .addCase(DELETE_USER_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
-    .addCase(CLEAR_ERRORS, (state, action) => {
+
+    case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
-    });
 
-});
+    default:
+      return state;
+  }
+};
 
-// Forgot Password
-export const forgotPasswordReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(FORGOT_PASSWORD_REQUEST, (state) => {
+export const forgotPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case FORGOT_PASSWORD_REQUEST:
+    case RESET_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    })
-    .addCase(RESET_PASSWORD_REQUEST, (state) => {
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    })
-    .addCase(FORGOT_PASSWORD_SUCCESS, (state, action) => {
+    case FORGOT_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
         message: action.payload,
       };
-    })
-    .addCase(RESET_PASSWORD_SUCCESS, (state, action) => {
+
+    case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
         success: action.payload,
       };
-    })
-    .addCase(FORGOT_PASSWORD_FAIL, (state, action) => {
+
+    case FORGOT_PASSWORD_FAIL:
+    case RESET_PASSWORD_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    })
-    .addCase(RESET_PASSWORD_FAIL, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    })
-    .addCase(CLEAR_ERRORS, (state, action) => {
+
+    case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
-    });
 
-});
+    default:
+      return state;
+  }
+};
 
-
-export const allUsersReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(ALL_USERS_REQUEST, (state,action) => {
+export const allUsersReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case ALL_USERS_REQUEST:
       return {
         ...state,
         loading: true,
-        
       };
-    })
-    .addCase(ALL_USERS_SUCCESS, (state,action) => {
+    case ALL_USERS_SUCCESS:
       return {
         ...state,
-        loading: true,
+        loading: false,
         users: action.payload,
       };
-    })
-    .addCase(ALL_USERS_FAIL, (state, action) => {
+
+    case ALL_USERS_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    })
-    
-    .addCase(CLEAR_ERRORS, (state, action) => {
+
+    case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
-    });
 
-});
+    default:
+      return state;
+  }
+};
 
-
-
-export const userDetailsReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(USER_DETAILS_REQUEST, (state,action) => {
+export const userDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
       return {
         ...state,
         loading: true,
-        
       };
-    })
-    .addCase(USER_DETAILS_SUCCESS, (state,action) => {
+    case USER_DETAILS_SUCCESS:
       return {
         ...state,
         loading: false,
         user: action.payload,
       };
-    })
-    .addCase(USER_DETAILS_FAIL, (state, action) => {
+
+    case USER_DETAILS_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    })
-    
-    .addCase(CLEAR_ERRORS, (state, action) => {
+
+    case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
-    });
 
-});
+    default:
+      return state;
+  }
+};
