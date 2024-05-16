@@ -109,7 +109,7 @@ function App() {
           } path="/process/payment" exact />
         </Route>
         
-        <Route path='*' Component={window.location.pathname === "/process/payment" ? null : NotFound} />
+        <Route path='*' element={window.location.pathname === "/process/payment" ? null : <NotFound/>} />
       </Routes>
 
       <Footer />
