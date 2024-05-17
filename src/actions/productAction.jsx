@@ -29,7 +29,7 @@ import {
     DELETE_PRODUCT_FAIL,
     CLEAR_ERRORS,
 } from "../constants/productConstants";
-import { url } from "../Link";
+import { url } from "../link";
 
 
 // Get All Product
