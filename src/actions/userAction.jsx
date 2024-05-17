@@ -37,7 +37,8 @@ import {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
 } from "../constants/userConstants";
-import { url } from "../link";
+// import { url } from "../link";
+const  url = "https://backend-test-70ej.onrender.com/";
 
 // Login
 export const login = (email, password) => async (dispatch) => {
