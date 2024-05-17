@@ -37,7 +37,7 @@ import {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
 } from "../constants/userConstants";
-import { url } from "../link";
+import { url } from "../Link";
 
 // Login
 export const login = (email, password) => async (dispatch) => {

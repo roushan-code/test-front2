@@ -4,7 +4,7 @@ import {
   SAVE_SHIPPING_INFO,
   } from "../constants/cartConstants";
   import axios from "axios";
-  import { url } from "../link";
+  import { url } from "../Link";
 
   // Add Cart Item
 export const addItemsToCart = (id, quantity) => async (dispatch,getState) => {

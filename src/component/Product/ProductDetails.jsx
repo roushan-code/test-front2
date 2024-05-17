@@ -112,7 +112,7 @@ const ProductDetails = () => {
                 <div className="ProductDetails">
                     <div>
                         <Carousel>
-                            {product &&
+                            {product && product.images &&
                                 product.images.map((item, i) => (
                                     <img
                                         className='CarouselImage'

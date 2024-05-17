@@ -21,7 +21,7 @@ import {
 } from "../constants/orderConstants";
 
 import axios from "axios";
-import { url } from "../link";
+import { url } from "../Link";
 
 // Create Order
 export const createOrder = (order) => async (dispatch) => {
