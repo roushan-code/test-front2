@@ -98,7 +98,7 @@ const LoginSignUp = () => {
       navigate(redirect);
     }
     
-  }, [dispatch, error, toast,isAuthenticated,redirect, navigate ]);
+  }, [dispatch, error, isAuthenticated,redirect, navigate ]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

@@ -55,9 +55,9 @@
 
 
 @media screen and (max-width: 600px) {
-  /* .sidebar{
-    width: 50%;
-  } */
+  .sidebar{
+    width: 100%;
+  }
   .productListContainer {
     width: 50%;
   }
