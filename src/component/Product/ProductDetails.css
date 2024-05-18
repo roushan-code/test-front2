@@ -227,6 +227,7 @@
     }
     .CarouselImage{
         width: 55vw;
+        max-height: 70vw;
     }
     .ProductDetails {
       flex-direction: column;
