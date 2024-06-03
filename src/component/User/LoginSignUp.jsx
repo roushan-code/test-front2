@@ -1,5 +1,6 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
+import profile from "../../images/Profile.png"
 import Loader from "../layout/Loader/loader";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -15,7 +16,7 @@ const LoginSignUp = () => {
     const location = useLocation();
   const dispatch = useDispatch();
 
-  const { error,token, loading, isAuthenticated } = useSelector(
+  const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
 
@@ -34,8 +35,8 @@ const LoginSignUp = () => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState(profile);
+  const [avatarPreview, setAvatarPreview] = useState(profile);
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -49,10 +50,10 @@ const LoginSignUp = () => {
     
     const myForm = new FormData();
 
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
+    myForm.append("name", name);
+    myForm.append("email", email);
+    myForm.append("password", password);
+    myForm.append("avatar", avatar);
     
     
     dispatch(register(myForm));
@@ -133,7 +134,7 @@ const LoginSignUp = () => {
                 </div>
                 <button ref={switcherTab}></button>
               </div>
-              <form className="loginForm" ref={loginTab} onSubmit={loginSubmit}>
+              <form className="loginForm" ref={loginTab} onSubmit={loginSubmit} >
                 <div className="loginEmail">
                   <MailOutlineIcon />
                   <input
@@ -185,6 +186,7 @@ const LoginSignUp = () => {
                     onChange={registerDataChange}
                   />
                 </div>
+                <p className="para">Password must be at least 8 charactor <span>*</span></p>
                 <div className="signUpPassword">
                   <LockOpenIcon />
                   <input
@@ -196,7 +198,7 @@ const LoginSignUp = () => {
                     onChange={registerDataChange}
                   />
                 </div>
-                <p className="para">Image Size must be less than 50kb <span>*</span></p>
+                <p className="para">Image Size must be less than 750kb <span>*</span></p>
                 <div id="registerImage">
                   <img src={avatarPreview} alt="Avatar Preview" />
                   <input
