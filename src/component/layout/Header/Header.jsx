@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Header.css"
-import logo from "../../../images/logo.png";
+import logo from "../../../images/logo.jpg";
 import { FaCartArrowDown } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
