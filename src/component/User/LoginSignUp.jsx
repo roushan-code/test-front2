@@ -200,7 +200,7 @@ const LoginSignUp = () => {
                 </div>
                 <p className="para">Image Size must be less than 750kb <span>*</span></p>
                 <div id="registerImage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
+                  <img src={avatarPreview} loading="lazy" alt="Avatar Preview" />
                   <input
                     type="file"
                     name="avatar"

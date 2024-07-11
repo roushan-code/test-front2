@@ -15,7 +15,7 @@ const Header = () => {
       <nav className="navbar">
         <div className="web-header">
         <div>
-        <a href="/" className="navbar-brand"><img src={logo} alt="" /></a>
+        <a href="/" className="navbar-brand"><img src={logo} loading="lazy" alt="" /></a>
         </div>
         <ul className="navbar-nav">
           <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
@@ -36,7 +36,7 @@ const Header = () => {
     </label>
     <aside className="side-bar">
       <div>
-        <a href="/" ><img className="navbar-logo" src={logo} alt="" /></a>
+        <a href="/" ><img className="navbar-logo" src={logo} loading="lazy" alt="" /></a>
         </div>
         <ul className="navbar-nav">
           <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
