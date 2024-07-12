@@ -12,40 +12,24 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-
-
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
-
-
 import ReviewCard from "./ReviewCard.jsx";
 import Loader from '../layout/Loader/loader.jsx';
 
 const ProductDetails = () => {
-
     const dispatch = useDispatch();
-    
-
-
     const { id } = useParams();
-
-
     const { product, loading, error } = useSelector((state) => state.productDetails);
-
-    let pro = { ...product };
-
     const { success, error: reviewError } = useSelector(
         (state) => state.newReview
     );
-
-
-
     const [quantity, setQuantity] = useState(1);
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
 
-
-
+    let pro = { ...product };
+    
     const increaseQuantity = () => {
         if (product.Stock <= quantity) return;
 
@@ -58,27 +42,20 @@ const ProductDetails = () => {
         const qty = quantity - 1;
         setQuantity(qty);
     }
-
     const addToCartHandler = () => {
         dispatch(addItemsToCart(id, quantity));
         toast.success("Item Added to Cart");
     }
-
-    // console.log(pro.ratings)
-
     const submitReviewToggle = () => {
         open ? setOpen(false) : setOpen(true);
     };
-
     const reviewSubmitHandler = () => {
         const myForm = new FormData();
 
         myForm.set("rating", rating);
         myForm.set("comment", comment);
         myForm.set("productId", id);
-
         dispatch(newReview(myForm));
-
         setOpen(false);
     };
 
@@ -91,14 +68,12 @@ const ProductDetails = () => {
             toast.error(reviewError);
             dispatch(clearErrors());
         }
-
         if (success) {
             toast.success("Review Submitted Successfully");
             dispatch({ type: NEW_REVIEW_RESET });
         }
         dispatch(getProductDetails(id));
-    }, [dispatch, id, error, toast, reviewError, success]);
-
+    }, [dispatch, id, error,  reviewError, success]);
 
     const myStyle = {
         itemShapes: ThinStar,
@@ -106,17 +81,17 @@ const ProductDetails = () => {
         inactiveFillColor: 'rgba(20,20,20,0.1)',
     };
     return (
-
         <Fragment>
             {loading ? (<Loader />) : (<Fragment>
                 <div className="ProductDetails">
                     <div>
-                        <Carousel interval={1500} swipe={true}>
+                        <Carousel interval={1500} swipe={true} >
                             {product && product.images &&
                                 product.images.map((item, i) => (
                                     <img
                                         className='CarouselImage'
                                         src={item.url}
+                                        
                                         key={item.url}
                                         alt={`${i} Slide`} />
                                 ))
@@ -160,9 +135,7 @@ const ProductDetails = () => {
                         <button onClick={submitReviewToggle} className='submitReview'>Submit Review</button>
                     </div>
                 </div>
-
                 <h3 className='reviewsHeading' >REVIEWS</h3>
-
                 <Dialog
                     aria-labelledby="simple-dialog-title"
                     open={open}
@@ -175,7 +148,6 @@ const ProductDetails = () => {
                             value={rating}
                             size="large"
                         />
-
                         <textarea
                             className="submitDialogTextArea"
                             cols="30"

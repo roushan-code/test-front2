@@ -5,16 +5,12 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 
-
-
-
 const Header = () => {
-
-  return (
+return (
     <>
       <nav className="navbar">
         <div className="web-header">
-        <div>
+        <div className='weblogo'>
         <a href="/" className="navbar-brand"><img src={logo} loading="lazy" alt="" /></a>
         </div>
         <ul className="navbar-nav">
@@ -29,7 +25,6 @@ const Header = () => {
           <a href="/login"><CgProfile /></a>
         </div>
         </div>
-
         <div className='hamburger'>
         <label className="hamburger-menu">
       <input type="checkbox" />
@@ -51,11 +46,8 @@ const Header = () => {
         </div>
     </aside>
         </div>
-
       </nav>
-
     </>
   )
 }
-
 export default Header

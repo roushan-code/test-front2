@@ -5,28 +5,52 @@ import Loader from "../layout/Loader/loader";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { toast } from 'react-toastify';
 
-
 const LoginSignUp = () => {
     const navigate = useNavigate();
     const location = useLocation();
   const dispatch = useDispatch();
-
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
-
   const loginTab = useRef(null);
   const registerTab = useRef(null);
   const switcherTab = useRef(null);
+  const [toggleVisibility, setToggleVisibility] = useState(true);
+  let spanVisibilityRef = useRef(null);
+  let spanVisibilityOffRef = useRef(null);
+  let spanVisibilityRefsign = useRef(null);
+  let spanVisibilityOffRefsign = useRef(null);
+  let passwordRef = useRef(null);
+  let passwordRefsign = useRef(null);
+
+  function toggleEye(){
+    if(toggleVisibility){
+      spanVisibilityRef.current.style.display = "block"
+      spanVisibilityOffRef.current.style.display = "none"
+      spanVisibilityRefsign.current.style.display = "block"
+      spanVisibilityOffRefsign.current.style.display = "none"
+      passwordRef.current.type = "text"
+      passwordRefsign.current.type = "text"
+    }else{
+      spanVisibilityRef.current.style.display = "none"
+      spanVisibilityOffRef.current.style.display = "block"
+      spanVisibilityRefsign.current.style.display = "none"
+      spanVisibilityOffRefsign.current.style.display = "block"
+      passwordRef.current.type = "password"
+      passwordRefsign.current.type = "password"
+    }
+    setToggleVisibility(!toggleVisibility)
+  }
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -34,30 +58,26 @@ const LoginSignUp = () => {
   });
 
   const { name, email, password } = user;
-
   const [avatar, setAvatar] = useState(profile);
   const [avatarPreview, setAvatarPreview] = useState(profile);
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    // console.log("form Submit");
-    
     dispatch(login(loginEmail, loginPassword));
   };
 
   const registerSubmit = (e) => {
     e.preventDefault();
-    
-    const myForm = new FormData();
-
-    myForm.append("name", name);
-    myForm.append("email", email);
-    myForm.append("password", password);
-    myForm.append("avatar", avatar);
-    
-    
-    dispatch(register(myForm));
-    // console.log("you are register")
+    if(avatar === "/static/media/Profile.697fdcd21f6d157b9073.png"){
+      toast.error("Please Upload Profile Image")
+    }else{
+      const myForm = new FormData();
+      myForm.set("name", name);
+      myForm.set("email", email);
+      myForm.set("password", password);
+      myForm.set("avatar", avatar);
+      dispatch(register(myForm));
+    }
   };
 
   const registerDataChange = (e) => {
@@ -68,37 +88,33 @@ const LoginSignUp = () => {
         if (reader.readyState === 2) {
           setAvatarPreview(reader.result);
           setAvatar(reader.result);
-          
         }
       };
-
       reader.onerror = (error) => {
         console.error("Error reading the file:", error);
       };
-
       reader.readAsDataURL(e.target.files[0]);
-
-      
+      const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            const fileSize = selectedFile.size; // File size in bytes
+            const maxFileSize = 700000; // 700kb in bytes
+            if (fileSize > maxFileSize) {
+                toast.error('File size exceeds the maximum limit of 700 kb.');
+            }
+        }
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
-      
     }
   };
-  // const redirect = "/account";
   const redirect = location.search ? location.search.split("=")[1] : "/account";
-
-  
-
   useEffect(() => {
     if (error) {
-      toast.error(error);
-        
+      toast.error(error); 
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
       navigate(redirect);
     }
-    
   }, [dispatch, error, isAuthenticated,redirect, navigate ]);
 
   const switchTabs = (e, tab) => {
@@ -117,14 +133,12 @@ const LoginSignUp = () => {
       loginTab.current.classList.add("shiftToLeft");
     }
   };
-
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
-          
           <div className="LoginSignUpContainer">
             <div className="LoginSignUpBox">
               <div>
@@ -134,7 +148,7 @@ const LoginSignUp = () => {
                 </div>
                 <button ref={switcherTab}></button>
               </div>
-              <form className="loginForm" ref={loginTab} onSubmit={loginSubmit} >
+              <form className="loginForm" ref={loginTab} onSubmit={loginSubmit}>
                 <div className="loginEmail">
                   <MailOutlineIcon />
                   <input
@@ -153,7 +167,14 @@ const LoginSignUp = () => {
                     required
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
+                    ref={passwordRef}
                   />
+                  <span className="visible" onClick={toggleEye} ref={spanVisibilityRef}>
+                    <VisibilityIcon />
+                    </span>
+                  <span className="invisible" onClick={toggleEye} ref={spanVisibilityOffRef}>
+                    <VisibilityOffIcon />
+                    </span>
                 </div>
                 <Link to="/password/forgot">Forget Password ?</Link>
                 <input type="submit" value="Login" className="loginBtn" />
@@ -196,9 +217,16 @@ const LoginSignUp = () => {
                     name="password"
                     value={password}
                     onChange={registerDataChange}
+                    ref={passwordRefsign}
                   />
+                  <span className="visible" onClick={toggleEye} ref={spanVisibilityRefsign}>
+                    <VisibilityIcon />
+                    </span>
+                  <span className="invisible" onClick={toggleEye} ref={spanVisibilityOffRefsign}>
+                    <VisibilityOffIcon />
+                    </span>
                 </div>
-                <p className="para">Image Size must be less than 750kb <span>*</span></p>
+                <p className="para">Image Size must be less than 700kb <span>*</span></p>
                 <div id="registerImage">
                   <img src={avatarPreview} loading="lazy" alt="Avatar Preview" />
                   <input
