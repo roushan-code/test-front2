@@ -39,6 +39,7 @@ import UsersList from './component/Admin/UserList.jsx';
 import UpdateUser from './component/Admin/UpdateUser.jsx';
 import ProductReviews from './component/Admin/ProductReviews.jsx';
 import NotFound from "./component/layout/Not Found/NotFound.jsx"
+import ScrollToTop from './component/Route/ScrollToTop.jsx';
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -54,6 +55,7 @@ function App() {
   // window.addEventListener("contextmenu", (e)=> e.preventDefault());
   return (
     <Router>
+      <ScrollToTop/>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
