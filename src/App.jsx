@@ -15,31 +15,33 @@ import store from "./store"
 import { loadUser } from './actions/userAction.jsx';
 import UserOptions from "./component/layout/Header/UserOptions.jsx"
 import { useSelector } from 'react-redux';
-import ForgotPassword from './component/User/ForgotPassword.jsx';
-import ResetPassword from './component/User/ResetPassword.jsx';
 import Cart from "./component/Cart/Cart.jsx"
 import Profile from './component/User/Profile.jsx';
 import PrivateRoute from './component/Route/ProtectedRoute.jsx';
 import PrivateRouteAdmin from './component/Route/ProtectedRouteAdmin.jsx';
-import UpdateProfile from './component/User/UpdateProfile.jsx';
-import UpdatePassword from './component/User/UpdatePassword.jsx';
-import Shipping from './component/Cart/Shipping.jsx';
-import ConfirmOrder from './component/Cart/ConfirmOrder.jsx';
-import MyOrders from './component/Order/MyOrders.jsx';
-import PaymentGuard from './component/Route/PaymentGuard.jsx';
-import OrderSuccess from './component/Cart/OrderSuccess.jsx';
-import OrderDetails from './component/Order/OrderDetails.jsx';
-import Dashboard from './component/Admin/Dashboard.jsx';
-import ProductList from './component/Admin/ProductList.jsx';
-import NewProduct from './component/Admin/NewProduct.jsx';
-import UpdateProduct from './component/Admin/UpdateProduct.jsx';
-import OrderList from './component/Admin/OrderList.jsx';
-import ProcessOrder from './component/Admin/ProcessOrder.jsx';
-import UsersList from './component/Admin/UserList.jsx';
-import UpdateUser from './component/Admin/UpdateUser.jsx';
-import ProductReviews from './component/Admin/ProductReviews.jsx';
-import NotFound from "./component/layout/Not Found/NotFound.jsx"
 import ScrollToTop from './component/Route/ScrollToTop.jsx';
+import NotFound from "./component/layout/Not Found/NotFound.jsx"
+import PaymentGuard from './component/Route/PaymentGuard.jsx';
+import Loader from './component/layout/Loader/loader.jsx';
+
+const ResetPassword = React.lazy(() => import('./component/User/ResetPassword.jsx'));
+const ForgotPassword = React.lazy(() => import('./component/User/ForgotPassword.jsx'));
+const UpdateProfile = React.lazy(() => import('./component/User/UpdateProfile.jsx'));
+const UpdatePassword = React.lazy(() => import('./component/User/UpdatePassword.jsx'));
+const Shipping = React.lazy(() => import('./component/Cart/Shipping.jsx'));
+const ConfirmOrder = React.lazy(() => import('./component/Cart/ConfirmOrder.jsx'));
+const MyOrders = React.lazy(() => import('./component/Order/MyOrders.jsx'));
+const OrderSuccess = React.lazy(() => import('./component/Cart/OrderSuccess.jsx'));
+const OrderDetails = React.lazy(() => import('./component/Order/OrderDetails.jsx'));
+const Dashboard = React.lazy(() => import('./component/Admin/Dashboard.jsx'));
+const ProductList = React.lazy(() => import('./component/Admin/ProductList.jsx'));
+const NewProduct = React.lazy(() => import('./component/Admin/NewProduct.jsx'));
+const UpdateProduct = React.lazy(() => import('./component/Admin/UpdateProduct.jsx'));
+const OrderList = React.lazy(() => import('./component/Admin/OrderList.jsx'));
+const ProcessOrder = React.lazy(() => import('./component/Admin/ProcessOrder.jsx'));
+const UsersList = React.lazy(() => import('./component/Admin/UserList.jsx'));
+const UpdateUser = React.lazy(() => import('./component/Admin/UpdateUser.jsx'));
+const ProductReviews = React.lazy(() => import('./component/Admin/ProductReviews.jsx'));
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -55,7 +57,7 @@ function App() {
   // window.addEventListener("contextmenu", (e)=> e.preventDefault());
   return (
     <Router>
-      <ScrollToTop/>
+      <ScrollToTop />
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
@@ -66,8 +68,12 @@ function App() {
         <Route exact path='/search' element={<Search />} />
         <Route exact path='/login' element={<LoginSignUp />} />
         <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/password/forgot" element={<ForgotPassword />} />
-        <Route exact path="/password/reset/:token" element={<ResetPassword />} />
+        <Route exact path="/password/forgot" element={<React.Suspense fallback={<Loader />}>
+          <ForgotPassword />
+        </React.Suspense>} />
+        <Route exact path="/password/reset/:token" element={<React.Suspense fallback={<Loader />}>
+          <ResetPassword />
+        </React.Suspense>} />
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/about" element={<About />} />
 
@@ -78,58 +84,76 @@ function App() {
         </Route> */}
         <Route path="/admin/dashboard"
           element={
-            <PrivateRouteAdmin isAdmin={true} >
-              <Dashboard />
-            </PrivateRouteAdmin>
+            <React.Suspense fallback={<Loader />}>
+              <PrivateRouteAdmin isAdmin={true} >
+                <Dashboard />
+              </PrivateRouteAdmin>
+            </React.Suspense>
           }
         ></Route>
 
         <Route path="/admin/products"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <ProductList />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <ProductList />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/product"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <NewProduct />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <NewProduct />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/product/:id"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <UpdateProduct />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <UpdateProduct />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/orders"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <OrderList />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <OrderList />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/order/:id"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <ProcessOrder />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <ProcessOrder />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/users"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <UsersList />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <UsersList />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/user/:id"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <UpdateUser />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <UpdateUser />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         <Route path="/admin/reviews"
-          element={<PrivateRouteAdmin isAdmin={true} >
-            <ProductReviews />
-          </PrivateRouteAdmin>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRouteAdmin isAdmin={true} >
+              <ProductReviews />
+            </PrivateRouteAdmin>
+          </React.Suspense>}
         ></Route>
 
         {/* <Route
@@ -139,44 +163,60 @@ function App() {
         </Route> */}
 
         <Route path="/account"
-          element={<PrivateRoute isAdmin={false} >
-            <Profile />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <Profile />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/me/update"
-          element={<PrivateRoute isAdmin={false} >
-            <UpdateProfile />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <UpdateProfile />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/password/update"
-          element={<PrivateRoute isAdmin={false} >
-            <UpdatePassword />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <UpdatePassword />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/login/shipping"
-          element={<PrivateRoute isAdmin={false} >
-            <Shipping />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <Shipping />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/order/confirm"
-          element={<PrivateRoute isAdmin={false} >
-            <ConfirmOrder />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <ConfirmOrder />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/success"
-          element={<PrivateRoute isAdmin={false} >
-            <OrderSuccess />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <OrderSuccess />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/orders"
-          element={<PrivateRoute isAdmin={false} >
-            <MyOrders />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <MyOrders />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
         <Route path="/order/:id"
-          element={<PrivateRoute isAdmin={false} >
-            <OrderDetails />
-          </PrivateRoute>}
+          element={<React.Suspense fallback={<Loader />}>
+            <PrivateRoute isAdmin={false} >
+              <OrderDetails />
+            </PrivateRoute>
+          </React.Suspense>}
         ></Route>
 
 
